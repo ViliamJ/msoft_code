@@ -2,9 +2,8 @@ import dash_bootstrap_components as dbc
 import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output, State
-from .apps import profit_summary
-from django_plotly_dash import DjangoDash
-from .app import app
+from Core.dash_apps.finished_apps import profit_summary
+from Core.dash_apps.app import app
 
 
 logo = "../plot_admin/static/img/holon_logo.png"

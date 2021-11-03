@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load plotly_dash %}
+{% load get_attr %}
+
+{% block content %}
+
+    {{ model }}
+    {{ model_fields }}
+    <form method="POST">
+        {% csrf_token %}
+        <a class="btn btn-primary" href="{% url 'model_add' model='Employee' %}">Add</a>
+    </form>
+
+    {% if model_list %}
+        <table class="table">
+            <tr>
+                {% for field in model_fields %}
+                    <th>{{ field }}</th>
+                {% endfor %}
+            </tr>
+            {% for row in model_list %}
+                <tr>
+                    {% for field in model_fields %}
+                        {% if field == 'id' %}
+                            <td class="text-reset"><a href="google.com">{{ row|get_attr:field }}</a></td>
+                        {% else %}
+                            <td class="text-reset">{{ row|get_attr:field }}</td>
+                        {% endif %}
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+
+
+
+{% endblock %}

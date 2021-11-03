@@ -1,11 +1,8 @@
-import dash
 import dash_core_components as dcc
 import dash_html_components as html
-import plotly.express as px
 from dash.dependencies import Input, Output
-from django_plotly_dash import DjangoDash
-from ...logic import plotting_logic
-from ..app import app
+from Core.logic import plotting_logic
+from Core.dash_apps.app import app
 
 available_indicators = ["Zoo", "Jakub", "Údržba"]
 
