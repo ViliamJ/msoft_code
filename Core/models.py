@@ -21,13 +21,6 @@ class HasName(models.Model):
 class Tags(AbstractModel):
     tag_name = models.CharField(max_length=20)
 
-
-class TagsContentType(AbstractModel):
-    tag = models.ForeignKey(Tags, on_delete=models.PROTECT, null=True, blank=True)
-    content_type = models.ForeignKey(ContentType, on_delete=models.PROTECT, null=True, blank=True)
-
-
-class AbstractData(AbstractModel):
     class Meta:
         abstract = True
 
@@ -43,8 +36,65 @@ class HasDivision(models.Model):
         abstract = True
 
 
-class Building(AbstractModel, HasDivision):
+# Scans table
+# possibly use content type for acces to many tables
+class Scans(AbstractModel):
+    scan = models.ImageField(upload_to='scans')
+
+
+class Contract(AbstractModel):
+    name = models.CharField(max_length=20)
+    description = models.TextField()
+    hours = models.FloatField()
+
+
+class HasContract(models.Model):
+    contract = models.ForeignKey(Contract, on_delete=models.PROTECT, null=True, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class Payment(AbstractModel):
+    class Type(models.TextChoices):
+        CASH = 'Cash'
+        CARD = 'Card'
+
+    price = models.FloatField()
+    type = models.CharField(
+        max_length=10,
+        choices=Type.choices,
+        default=Type.CASH
+    )
+    description = models.TextField()
+
+
+class HasPayment(models.Model):
+    payment = models.ForeignKey(Payment, on_delete=models.PROTECT, null=True, blank=True)
+
+    class Meta:
+        abstract = True
+
+
+class Profit(AbstractModel, HasDivision, HasPayment):
+    description = models.TextField()
+
+
+class Costs(AbstractModel, HasDivision, HasPayment):
+    description = models.TextField()
+
+
+class Employee(AbstractModel, HasContract):
     pass
+
+
+class Building(AbstractModel, HasContract):
+    description = models.TextField()
+
+
+class AbstractData(AbstractModel):
+    class Meta:
+        abstract = True
 
 
 class HasBuilding(models.Model):
@@ -68,28 +118,6 @@ class HasHours(models.Model):
         abstract = True
 
 
-class HasPrice(models.Model):
-    price = models.FloatField()
-
-    class Meta:
-        abstract = True
-
-
-class Contract(AbstractModel, HasPrice, HasName, HasHours):
-    pass
-
-
-class HasContract(models.Model):
-    contract = models.ForeignKey(Contract, on_delete=models.PROTECT, null=True, blank=True)
-
-    class Meta:
-        abstract = True
-
-
-class Employee(AbstractModel, HasName, HasDivision, HasPay, HasContract):
-    pass
-
-
 class HasEmployee(models.Model):
     employee = models.ForeignKey(Employee, on_delete=models.PROTECT, null=True, blank=True)
 
@@ -101,56 +129,5 @@ class Timesheet(AbstractModel, HasEmployee, HasHours, HasBuilding):
     pass
 
 
-class Work(AbstractModel, HasDivision, HasHours, HasBuilding):
-    pass
-
-
-class Bill(AbstractModel, HasBuilding, HasContract):
-    pass
-
-
 class Maintanence(AbstractModel, HasDivision, HasHours, HasContract):
     type = models.CharField(max_length=20)
-
-
-class Payment(AbstractModel, HasPrice):
-    class Type(models.TextChoices):
-        CASH = 'Cash'
-        CARD = 'Card'
-
-    type = models.CharField(
-        max_length=10,
-        choices=Type.choices,
-        default=Type.CASH
-    )
-
-
-class HasPayment(models.Model):
-    payment = models.ForeignKey(Payment, on_delete=models.PROTECT, null=True, blank=True)
-
-    class Meta:
-        abstract = True
-
-
-class GP_listok(AbstractData, HasName):
-    pass
-
-
-class GO_season_pass(AbstractData, HasName):
-    pass
-
-
-class Prechod_AQP(AbstractData, HasName):
-    pass
-
-
-class Prechod_HVT(AbstractData, HasName):
-    pass
-
-
-class Kasa(AbstractData, HasName, HasPayment):
-    pass
-
-
-class Obchod(AbstractData, HasName, HasPayment):
-    pass
