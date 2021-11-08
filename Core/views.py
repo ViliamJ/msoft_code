@@ -3,6 +3,8 @@ from Core.logic.logic import build_home_context
 from django.forms import BaseForm, modelform_factory, modelformset_factory
 from Core.models import Employee
 
+from .decorators import unauthenticated_user, allowed_user
+
 from django.views.generic import ListView, DetailView
 
 from django.contrib.contenttypes.models import ContentType
@@ -59,23 +61,24 @@ def model_detail(request, model, **kwargs):
 
     return render(request, template_name='home/model.html', context=context)
 
-
+@allowed_user(allowed_roles=['manager'])
 def model_add(request, model):
-
-    print("mode", model)
+    context = build_home_context({})
+    context['model'] = model
 
     model_class = ContentType.objects.get(model=model.lower()).model_class()
 
     factoried_model = modelform_factory(model_class, fields='__all__')
 
     form = factoried_model()
+    context['form'] = form
 
     if request.method == "POST":
         form = factoried_model(request.POST)
         if form.is_valid():
             form.save()
 
-    return render(request, 'home/model_add.html', {'form': form})
+    return render(request, template_name='home/model_add.html', context=context,)
 
 def graph(request):
     return render(request, 'home/graph.html')

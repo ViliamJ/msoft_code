@@ -9,7 +9,7 @@
     {{ model_fields }}
     <form method="POST">
         {% csrf_token %}
-        <a class="btn btn-primary" href="{% url 'model_add' model='Employee' %}">Add</a>
+        <a class="btn btn-primary" href="{% url 'model_add' model=model %}">Add</a>
     </form>
 
     {% if model_list %}

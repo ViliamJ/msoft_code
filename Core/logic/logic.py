@@ -1,5 +1,5 @@
 def fetch_models():
-    return ['Employee', 'Maintanence', 'Payment']
+    return ['Employee', 'Maintanence', 'Payment', 'Division']
 
 
 def build_home_context(context):
