@@ -19,7 +19,6 @@ from django.urls import path, include
 from django.contrib.auth import views as auth_views
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('django_plotly_dash/', include('django_plotly_dash.urls')),
     path('accounts/login/', auth_views.LoginView.as_view(template_name='registration/login.html',redirect_field_name='/')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('', include('Core.urls')),

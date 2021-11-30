@@ -7,3 +7,5 @@ dpd-static-support
 django-bootstrap4
 dash-bootstrap-components
 pandas
+django-crispy-forms==1.13.0
+Pillow==8.4.0

@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from Core.logic.logic import build_home_context
 from django.forms import BaseForm, modelform_factory, modelformset_factory
-from Core.models import Employee
 
 from .decorators import unauthenticated_user, allowed_user
 
@@ -19,7 +18,6 @@ def home(request, **kwargs):
     context = build_home_context({})
 
     return render(request, template_name='home/welcome.html', context=context)
-
 
 
 class ModelListView(ListView):
@@ -51,7 +49,6 @@ def model_list(request, model, **kwargs):
 
     model_class = ContentType.objects.get(model=model.lower()).model_class()
     print(model_class)
-    print(Employee)
 
     factory = modelformset_factory(model_class, fields='__all__', extra=0)
     formset = factory()
@@ -61,7 +58,6 @@ def model_list(request, model, **kwargs):
     return render(request, template_name='home/model_list.html', context=context)
 
 
-@login_required(login_url='/accounts/login/')
 def model_detail(request, model, **kwargs):
     context = build_home_context({})
     context['model'] = model
@@ -69,8 +65,8 @@ def model_detail(request, model, **kwargs):
     return render(request, template_name='home/model.html', context=context)
 
 
-@allowed_user(allowed_roles=['manager'])
-@login_required(login_url='/accounts/login/')
+# @allowed_user(allowed_roles=['manager'])
+# @login_required(login_url='/accounts/login/')
 def model_add(request, model):
     context = build_home_context({})
     context['model'] = model
@@ -97,12 +93,11 @@ def graph(request):
     return render(request, 'home/graph.html')
 
 
-@login_required(login_url='/accounts/login/')
-def simple_user(request):
-    regular_user = User.objects.create_user(
-        username='peter',
-        email='peter@peter.com',
-        password='peter',
+def viliam(request):
+    regular_user = User.objects.create_superuser(
+        username='viliam',
+        email='viliam@gmail.com',
+        password='viliam',
     )
 
     return render(request, 'home/')

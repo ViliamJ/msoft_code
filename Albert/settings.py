@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'Core.apps.CoreConfig',
-    'django_plotly_dash.apps.DjangoPlotlyDashConfig',
     "bootstrap4",
     "crispy_forms",
 ]
@@ -87,31 +86,14 @@ def read_json(file_path):
 
 
 
-DATABASES = read_json("Albert/db_conf.json")
 
-# DATABASES = {
-#
-#      'default': {
-#
-#          'ENGINE': 'django.db.backends.postgresql',
-#
-#          'NAME': "albertdb",
-#
-#          'USER': "postgres",
-#
-#          'PASSWORD': "postgres",
-#
-#          'HOST': "localhost",
-#
-#          'PORT': 5432,
-#
-#      }
-#
-#     #'default': {
-#     #    'ENGINE': 'django.db.backends.sqlite3',
-#     #    'NAME': BASE_DIR / 'db.sqlite3',
-#     #}
-# }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -147,20 +129,7 @@ USE_TZ = True
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = "/"
 
-# Adding ASGI Application
-ASGI_APPLICATION = 'django_dash.routing.application'
 
-# Static content of Plotly components that should
-# be handled by the Django staticfiles infrastructure
-
-PLOTLY_COMPONENTS = [
-    'dash_core_components',
-    'dash_html_components',
-    'dash_bootstrap_components',
-    'dash_renderer',
-    'dpd_components',
-    'dpd_static_support',
-]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
