@@ -1,5 +1,5 @@
 """
-WSGI config for Albert project.
+WSGI config for e_auction project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
@@ -11,6 +11,6 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'Albert.settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'e_auction.settings')
 
 application = get_wsgi_application()

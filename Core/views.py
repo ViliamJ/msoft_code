@@ -58,6 +58,16 @@ def model_list(request, model, **kwargs):
     return render(request, template_name='home/model_list.html', context=context)
 
 
+from .models import Auctioned_item
+
+
+def delete(request,object_id):
+    instance = Auctioned_item.objects.get(id=object_id)
+    instance.delete()
+
+    return redirect('/')
+
+
 def model_detail(request, model, **kwargs):
     context = build_home_context({})
     context['model'] = model
@@ -88,16 +98,11 @@ def model_add(request, model):
     return render(request, template_name='home/model_add.html', context=context, )
 
 
-@login_required(login_url='/accounts/login/')
-def graph(request):
-    return render(request, 'home/graph.html')
-
-
-def viliam(request):
-    regular_user = User.objects.create_superuser(
-        username='viliam',
-        email='viliam@gmail.com',
-        password='viliam',
+def create_admin(request):
+    admin_user = User.objects.create_superuser(
+        username='admin',
+        email='admin@gmail.com',
+        password='admin',
     )
 
-    return render(request, 'home/')
+    return HttpResponse(f'User {admin_user} created')
